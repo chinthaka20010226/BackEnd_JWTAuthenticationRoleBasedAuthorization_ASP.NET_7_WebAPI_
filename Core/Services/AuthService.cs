@@ -51,6 +51,64 @@ namespace backend_dotnet7.Core.Services
             };
         }
 
+        public async Task<GeneralServiceResponseDto> RegisterAsync(RegisterDto registerDto)
+        {
+            var isExistsUser = await _userManager.FindByNameAsync(registerDto.Username);
+
+            if (isExistsUser is not null)
+                return new GeneralServiceResponseDto()
+                {
+                    IsSucceed = false,
+                    StatusCode = 409,
+                    Message = "UserName Alredy Exists"
+                };
+
+            ApplicationUser newUser = new ApplicationUser()
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                UserName = registerDto.Username,
+                Address = registerDto.Address,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            var createUserResult = await _userManager.CreateAsync(newUser,registerDto.Password);
+
+            if (!createUserResult.Succeeded)
+            {
+                var errorString = "User Creation failed because : ";
+                foreach(var error in createUserResult.Errors)
+                {
+                    errorString += " # " + error.Description;
+                }
+
+                return new GeneralServiceResponseDto()
+                {
+                    IsSucceed = false,
+                    StatusCode = 400,
+                    Message = "errorString"
+                };
+            }
+
+            //Add a Default User Role to all users
+            await _userManager.AddToRoleAsync(newUser, StaticUserRoles.USER);
+            await _logService.SaveNewLog(newUser.UserName, "Registered to Website");
+
+            return new GeneralServiceResponseDto()
+            {
+                IsSucceed = true,
+                StatusCode = 201,
+                Message = "User"
+            };
+
+        }
+
+        public Task<LoginServiceResponseDto> LoginAsync(LoginDto loginDto)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public Task<UserInfoResult> GetUserDetailsByUserName(string userName)
         {
@@ -67,22 +125,10 @@ namespace backend_dotnet7.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<LoginServiceResponseDto> LoginAsync(LoginDto loginDto)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<LoginServiceResponseDto> MeAsync(MeDto meDto)
         {
             throw new NotImplementedException();
         }
-
-        public Task<GeneralServiceResponseDto> RegisterAsync(RegisterDto registerDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        
 
         public Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
         {
