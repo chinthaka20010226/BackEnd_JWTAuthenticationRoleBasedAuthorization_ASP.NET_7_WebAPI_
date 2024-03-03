@@ -22,6 +22,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+//Dependency Injection
+
+
+//Add Identity
+
+
+//Config Identity
+
+
+//Add AuthenticationSchema and JwtBearer
+
 
 
 
