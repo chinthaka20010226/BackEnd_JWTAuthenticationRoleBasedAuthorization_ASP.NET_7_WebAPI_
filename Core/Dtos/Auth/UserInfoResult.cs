@@ -1,6 +1,6 @@
 ﻿namespace backend_dotnet7.Core.Dtos.Auth
 {
-    public class UserInfoResultDto
+    public class UserInfoResult
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
