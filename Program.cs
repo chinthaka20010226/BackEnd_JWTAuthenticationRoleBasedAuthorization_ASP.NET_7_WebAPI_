@@ -1,5 +1,7 @@
 using backend_dotnet7.Core.DbContext;
 using backend_dotnet7.Core.Entities;
+using backend_dotnet7.Core.Interfaces;
+using backend_dotnet7.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 //Dependency Injection
+builder.Services.AddScoped<ILogService, LogService>();
 
 
 //Add Identity
