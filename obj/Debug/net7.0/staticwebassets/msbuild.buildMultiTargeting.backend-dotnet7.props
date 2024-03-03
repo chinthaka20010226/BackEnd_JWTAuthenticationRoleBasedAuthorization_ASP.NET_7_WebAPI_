@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\backend-dotnet7.props" />
+</Project>
