@@ -1,6 +1,6 @@
 ﻿namespace backend_dotnet7.Core.Dtos.Message
 {
-    public class GetMessage
+    public class GetMessageDto
     {
         public long Id { get; set; }
         public string SenderUserName { get; set; }
