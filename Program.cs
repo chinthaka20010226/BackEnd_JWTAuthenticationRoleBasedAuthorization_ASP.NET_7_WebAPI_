@@ -1,4 +1,6 @@
 using backend_dotnet7.Core.DbContext;
+using backend_dotnet7.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -26,6 +28,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 //Add Identity
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 
 //Config Identity
