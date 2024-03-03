@@ -13,7 +13,6 @@ namespace backend_dotnet7.Core.Dtos.Auth
     public enum RoleType
     {
         ADMIN,
-        MANAGER,
         USER
     }
 }

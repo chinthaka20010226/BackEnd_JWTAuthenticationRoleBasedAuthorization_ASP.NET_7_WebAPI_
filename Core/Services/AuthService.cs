@@ -4,7 +4,10 @@ using backend_dotnet7.Core.Dtos.General;
 using backend_dotnet7.Core.Entities;
 using backend_dotnet7.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace backend_dotnet7.Core.Services
 {
@@ -104,10 +107,46 @@ namespace backend_dotnet7.Core.Services
 
         }
 
-        public Task<LoginServiceResponseDto> LoginAsync(LoginDto loginDto)
+        public async Task<LoginServiceResponseDto?> LoginAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            //Find user with username
+            var user = await _userManager.FindByNameAsync(loginDto.Username);
+
+            if (user is null)
+            {
+                return null;
+            }
+
+            //Check password of user
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!isPasswordCorrect)
+            {
+                return null;
+            }
+
+            //Return Token and userInfo to front-end
+            var NewToken = await GenerateJWTTokenAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var userInfo = GenerateUserInfoObject(user, roles);
+            await _logService.SaveNewLog(user.UserName, "New Login");
+
+            return new LoginServiceResponseDto()
+            {
+                NewToken = NewToken,
+                userInfo = userInfo
+            };
+
+
         }
+
+
+
+
+
+
+
+
 
 
         public Task<UserInfoResult> GetUserDetailsByUserName(string userName)
@@ -133,6 +172,69 @@ namespace backend_dotnet7.Core.Services
         public Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
         {
             throw new NotImplementedException();
+        }
+
+
+
+
+
+
+
+
+
+        //GenerateJWTTokenAsync
+        private async Task<string> GenerateJWTTokenAsync(ApplicationUser user)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier,user.Id),
+                new Claim("FirstName",user.FirstName),
+                new Claim("LastName",user.LastName)
+            };
+
+            foreach(var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
+            //Created Our Own Secret
+            var authSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            //Create Credential
+            var signingCredentials = new SigningCredentials(authSecret, SecurityAlgorithms.HmacSha256);
+
+            //Create new Token
+            var tokenObject = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                notBefore: DateTime.Now,
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: signingCredentials
+                );
+
+
+            string token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
+            return token;
+
+        }
+
+        //GenerateUserInfoObject
+        private UserInfoResult GenerateUserInfoObject(ApplicationUser user, IEnumerable<string> Roles)
+        {
+            return new UserInfoResult()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+                Roles = user.Roles
+            };
         }
     }
 }
