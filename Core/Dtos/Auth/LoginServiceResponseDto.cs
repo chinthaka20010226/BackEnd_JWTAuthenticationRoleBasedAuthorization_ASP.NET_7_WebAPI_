@@ -5,6 +5,6 @@
         public string NewToken { get; set; }
 
         //This would be return to the front
-        public UserInfoResult userInfo { get; set; }
+        public UserInfoResultDto userInfo { get; set; }
     }
 }
