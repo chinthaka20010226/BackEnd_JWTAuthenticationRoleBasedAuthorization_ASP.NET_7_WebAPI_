@@ -21,6 +21,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Core\Constants\" />
+    <Folder Include="Core\Dtos\" />
+    <Folder Include="Core\Interfaces\" />
+    <Folder Include="Core\Services\" />
   </ItemGroup>
 
 </Project>
