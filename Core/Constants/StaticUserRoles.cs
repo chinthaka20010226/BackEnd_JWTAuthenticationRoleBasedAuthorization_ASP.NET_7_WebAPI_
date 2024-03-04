@@ -8,7 +8,7 @@
         //public const string MANAGER = "MANAGER";
         public const string USER = "USER";
 
-        public const string OwnerAdmin = "ADMIN,USER";
+        public const string AdminUser = "ADMIN,USER";
         //public const string OwnerAdminManager = "OWNER,ADMIN,MANAGER";
         //public const string OwnerAdminManagerUser = "OWNER,ADMIN,MANAGER,USER";
     }
