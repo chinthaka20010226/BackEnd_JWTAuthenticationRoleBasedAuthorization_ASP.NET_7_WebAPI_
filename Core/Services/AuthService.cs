@@ -266,22 +266,16 @@ namespace backend_dotnet7.Core.Services
             return userInfo;
         }
 
-        public Task<IEnumerable<string>> GetUsernameListAsync()
+        public async Task<IEnumerable<string>> GetUsernameListAsync()
         {
-            throw new NotImplementedException();
+            var userNames = await _userManager.Users
+                .Select(q => q.UserName)
+                .ToListAsync();
+
+            return userNames;
         }
 
-        
-
-        
-
-        
-
-
-
-
-
-
+   
 
 
 
