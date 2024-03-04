@@ -4,6 +4,7 @@ using backend_dotnet7.Core.Dtos.General;
 using backend_dotnet7.Core.Entities;
 using backend_dotnet7.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -237,7 +238,21 @@ namespace backend_dotnet7.Core.Services
 
         }
 
+        public async Task<IEnumerable<UserInfoResult>> GetUsersListAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
 
+            List<UserInfoResult> userInfoResults = new List<UserInfoResult>();
+
+            foreach(var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userInfo = GenerateUserInfoObject(user, roles);
+                userInfoResults.Add(userInfo);
+            }
+
+            return userInfoResults;
+        }
 
 
 
@@ -252,10 +267,7 @@ namespace backend_dotnet7.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserInfoResult>> GetUsersListAsync()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         
 
