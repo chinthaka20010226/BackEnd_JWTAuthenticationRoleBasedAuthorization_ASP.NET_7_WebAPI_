@@ -28,12 +28,12 @@ namespace backend_dotnet7.Core.Services
 
         public async Task<GeneralServiceResponseDto> SeedRolesAsync()
         {
-            bool isOwnerRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.OWNER);
+            //bool isOwnerRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.OWNER);
             bool isAdminRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.ADMIN);
-            bool isManagerRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.MANAGER);
+            //bool isManagerRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.MANAGER);
             bool isUserRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.USER);
 
-            if (isOwnerRoleExists && isAdminRoleExists && isManagerRoleExists && isUserRoleExists)
+            if (isAdminRoleExists && isUserRoleExists)
                 return new GeneralServiceResponseDto()
                 {
                     IsSucceed = true,
@@ -41,9 +41,9 @@ namespace backend_dotnet7.Core.Services
                     Message = "Roles Seeding is Already Done"
                 };
 
-            await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.OWNER));
+            //await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.OWNER));
             await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.ADMIN));
-            await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.MANAGER));
+            //await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.MANAGER));
             await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.USER));
 
             return new GeneralServiceResponseDto()
@@ -140,8 +140,69 @@ namespace backend_dotnet7.Core.Services
 
         }
 
+        public async Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
+        {
+            var user = await _userManager.FindByNameAsync(updateRoleDto.UserName);
+            if(user is null)
+            {
+                return new GeneralServiceResponseDto()
+                {
+                    IsSucceed = false,
+                    StatusCode = 404,
+                    Message = "User Invalid"
+                };
 
+            }
 
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            //Just the Admin can updated the Role
+            if (User.IsInRole(StaticUserRoles.ADMIN))
+            {
+                //User is admin
+                if(updateRoleDto.NewRole == RoleType.USER)
+                {
+                    //admin can change the role of users
+                    if(userRoles.Any(q => q.Equals(StaticUserRoles.ADMIN)))
+                    {
+                        return new GeneralServiceResponseDto()
+                        {
+                            IsSucceed = false,
+                            StatusCode = 403,
+                            Message = "You are not to change role of this user"
+                        };
+                    }
+                    else
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, userRoles);
+                        await _userManager.AddToRoleAsync(user, updateRoleDto.NewRole.ToString());
+                        await _logService.SaveNewLog(user.UserName, "User Roles Upated");
+
+                        return new GeneralServiceResponseDto()
+                        {
+                            IsSucceed = true,
+                            StatusCode = 200,
+                            Message = "Role updated successfully"
+                        };
+                    }
+                }
+                return new GeneralServiceResponseDto()
+                {
+                    IsSucceed = false,
+                    StatusCode = 403,
+                    Message = "You are not to change role of this user"
+                };
+
+            }
+
+            return new GeneralServiceResponseDto()
+            {
+                IsSucceed = false,
+                StatusCode = 403,
+                Message = "You are not to change role of this user"
+            };
+
+        }
 
 
 
@@ -169,10 +230,7 @@ namespace backend_dotnet7.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
-        {
-            throw new NotImplementedException();
-        }
+        
 
 
 
