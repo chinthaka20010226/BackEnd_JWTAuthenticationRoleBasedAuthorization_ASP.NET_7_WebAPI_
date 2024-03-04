@@ -254,12 +254,16 @@ namespace backend_dotnet7.Core.Services
             return userInfoResults;
         }
 
-
-
-
-        public Task<UserInfoResult> GetUserDetailsByUserName(string userName)
+        public async Task<UserInfoResult?> GetUserDetailsByUserNameAsync(string userName)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user is null)
+                return null;
+
+            var role = await _userManager.GetRolesAsync(user);
+            var userInfo = GenerateUserInfoObject(user, role);
+
+            return userInfo;
         }
 
         public Task<IEnumerable<string>> GetUsernameListAsync()

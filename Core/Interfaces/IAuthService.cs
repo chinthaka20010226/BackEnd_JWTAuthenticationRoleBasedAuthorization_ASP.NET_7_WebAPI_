@@ -12,7 +12,7 @@ namespace backend_dotnet7.Core.Interfaces
         Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto);
         Task<LoginServiceResponseDto?> MeAsync(MeDto meDto);
         Task<IEnumerable<UserInfoResult>> GetUsersListAsync();
-        Task<UserInfoResult> GetUserDetailsByUserName(string userName);
+        Task<UserInfoResult?> GetUserDetailsByUserNameAsync(string userName);
         Task<IEnumerable<string>> GetUsernameListAsync();
     }
 }
