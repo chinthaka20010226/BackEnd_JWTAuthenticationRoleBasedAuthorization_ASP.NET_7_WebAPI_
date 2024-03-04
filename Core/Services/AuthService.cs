@@ -204,6 +204,38 @@ namespace backend_dotnet7.Core.Services
 
         }
 
+        public async Task<LoginServiceResponseDto?> MeAsync(MeDto meDto)
+        {
+            ClaimsPrincipal handler = new JwtSecurityTokenHandler().ValidateToken(meDto.Token, new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = _configuration["JWT:ValidIssuer"],
+                ValidAudience = _configuration["JWT:ValidAudience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]))
+            }, out SecurityToken securityToken);
+
+            string decodedUserName = handler.Claims.First(q => q.Type == ClaimTypes.Name).Value;
+            if (decodedUserName is null)
+                return null;
+
+            var user = await _userManager.FindByNameAsync(decodedUserName);
+            if (user is null)
+                return null;
+
+            var NewToken = await GenerateJWTTokenAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var userInfo = GenerateUserInfoObject(user, roles);
+            await _logService.SaveNewLog(user.UserName, "New Token Generated");
+
+            return new LoginServiceResponseDto()
+            {
+                NewToken = NewToken,
+                userInfo = userInfo
+            };
+
+
+        }
 
 
 
@@ -225,10 +257,7 @@ namespace backend_dotnet7.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<LoginServiceResponseDto> MeAsync(MeDto meDto)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         
 
