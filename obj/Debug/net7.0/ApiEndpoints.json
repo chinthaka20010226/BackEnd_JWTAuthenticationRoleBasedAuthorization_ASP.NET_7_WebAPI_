@@ -1,5 +1,101 @@
 [
   {
+    "ContainingType": "backend_dotnet7.Controllers.LogController",
+    "Method": "GetLogs",
+    "RelativePath": "api/Log",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backend_dotnet7.Core.Dtos.Log.GetLogDto, backend-dotnet7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.LogController",
+    "Method": "GetMyLogs",
+    "RelativePath": "api/Log/mine",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backend_dotnet7.Core.Dtos.Log.GetLogDto, backend-dotnet7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.MessagesController",
+    "Method": "GetMessages",
+    "RelativePath": "api/Messages",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backend_dotnet7.Core.Dtos.Message.GetMessageDto, backend-dotnet7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.MessagesController",
+    "Method": "CreateNewMessage",
+    "RelativePath": "api/Messages/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createMessageDto",
+        "Type": "backend_dotnet7.Core.Dtos.Message.CreateMessageDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.MessagesController",
+    "Method": "GetMyMessages",
+    "RelativePath": "api/Messages/mine",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backend_dotnet7.Core.Dtos.Message.GetMessageDto, backend-dotnet7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend_dotnet7.Controllers.TestController",
     "Method": "GetAdminData",
     "RelativePath": "api/Test/get-admin-role",
@@ -28,5 +124,165 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "backend_dotnet7.Core.Dtos.Auth.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend_dotnet7.Core.Dtos.Auth.LoginServiceResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "Me",
+    "RelativePath": "me",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "backend_dotnet7.Core.Dtos.Auth.MeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend_dotnet7.Core.Dtos.Auth.LoginServiceResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "Register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerDto",
+        "Type": "backend_dotnet7.Core.Dtos.Auth.RegisterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "SeedRoles",
+    "RelativePath": "seed-roles",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "UpdateRole",
+    "RelativePath": "update-role",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateRoleDto",
+        "Type": "backend_dotnet7.Core.Dtos.Auth.UpdateRoleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "GetUserNamesList",
+    "RelativePath": "usernames",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "GetUsersList",
+    "RelativePath": "users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backend_dotnet7.Core.Dtos.Auth.UserInfoResult, backend-dotnet7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend_dotnet7.Controllers.AuthController",
+    "Method": "GetUserDetailsByUserName",
+    "RelativePath": "users/{userName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend_dotnet7.Core.Dtos.Auth.UserInfoResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]
