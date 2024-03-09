@@ -205,22 +205,6 @@
   },
   {
     "ContainingType": "backend_dotnet7.Controllers.AuthController",
-    "Method": "UpdateRole",
-    "RelativePath": "update-role",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updateRoleDto",
-        "Type": "backend_dotnet7.Core.Dtos.Auth.UpdateRoleDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend_dotnet7.Controllers.AuthController",
     "Method": "GetUserNamesList",
     "RelativePath": "usernames",
     "HttpMethod": "GET",

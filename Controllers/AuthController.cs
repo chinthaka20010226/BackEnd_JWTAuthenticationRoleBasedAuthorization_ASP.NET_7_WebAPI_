@@ -49,6 +49,7 @@ namespace backend_dotnet7.Controllers
             return Ok(loginResult);
         }
 
+        /*
         // Route -> Update User Role
         // Admin can change User Role
         [HttpPost]
@@ -67,6 +68,7 @@ namespace backend_dotnet7.Controllers
                 return StatusCode(updateRoleResult.StatusCode, updateRoleResult.Message);
             }
         }
+        */
 
         // Route -> getting data of a user from it's JWT
         [HttpPost]

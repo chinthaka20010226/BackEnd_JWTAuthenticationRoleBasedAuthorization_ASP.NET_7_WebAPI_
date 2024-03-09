@@ -141,6 +141,7 @@ namespace backend_dotnet7.Core.Services
 
         }
 
+        /*
         public async Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
         {
             var user = await _userManager.FindByNameAsync(updateRoleDto.UserName);
@@ -186,12 +187,13 @@ namespace backend_dotnet7.Core.Services
                             Message = "Role updated successfully"
                         };
                     }
+                    
                 }
                 return new GeneralServiceResponseDto()
                 {
                     IsSucceed = false,
                     StatusCode = 403,
-                    Message = "You are not to change role of this user"
+                    Message = "You are not to change role of this user*"
                 };
 
             }
@@ -204,6 +206,7 @@ namespace backend_dotnet7.Core.Services
             };
 
         }
+        */
 
         public async Task<LoginServiceResponseDto?> MeAsync(MeDto meDto)
         {
