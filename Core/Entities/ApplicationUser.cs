@@ -9,8 +9,9 @@ namespace backend_dotnet7.Core.Entities
         public string LastName { get; set; }
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string Roles { get; set; }
 
-        [NotMapped]
-        public IList<string> Roles { get; set; }
+        //[NotMapped]
+        //public IList<string> Roles { get; set; }
     }
 }

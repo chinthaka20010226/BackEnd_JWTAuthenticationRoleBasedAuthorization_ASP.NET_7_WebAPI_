@@ -74,6 +74,7 @@ namespace backend_dotnet7.Core.Services
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
                 Address = registerDto.Address,
+                Roles = "User",
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
@@ -140,73 +141,6 @@ namespace backend_dotnet7.Core.Services
 
 
         }
-
-        /*
-        public async Task<GeneralServiceResponseDto> UpdateRoleAsync(ClaimsPrincipal User, UpdateRoleDto updateRoleDto)
-        {
-            var user = await _userManager.FindByNameAsync(updateRoleDto.UserName);
-            if(user is null)
-            {
-                return new GeneralServiceResponseDto()
-                {
-                    IsSucceed = false,
-                    StatusCode = 404,
-                    Message = "User Invalid"
-                };
-
-            }
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            //Just the Admin can updated the Role
-            if (User.IsInRole(StaticUserRoles.ADMIN))
-            {
-                //User is admin
-                if(updateRoleDto.NewRole == RoleType.USER)
-                {
-                    //admin can change the role of users
-                    if(userRoles.Any(q => q.Equals(StaticUserRoles.ADMIN)))
-                    {
-                        return new GeneralServiceResponseDto()
-                        {
-                            IsSucceed = false,
-                            StatusCode = 403,
-                            Message = "You are not to change role of this user"
-                        };
-                    }
-                    else
-                    {
-                        await _userManager.RemoveFromRolesAsync(user, userRoles);
-                        await _userManager.AddToRoleAsync(user, updateRoleDto.NewRole.ToString());
-                        await _logService.SaveNewLog(user.UserName, "User Roles Upated");
-
-                        return new GeneralServiceResponseDto()
-                        {
-                            IsSucceed = true,
-                            StatusCode = 200,
-                            Message = "Role updated successfully"
-                        };
-                    }
-                    
-                }
-                return new GeneralServiceResponseDto()
-                {
-                    IsSucceed = false,
-                    StatusCode = 403,
-                    Message = "You are not to change role of this user*"
-                };
-
-            }
-
-            return new GeneralServiceResponseDto()
-            {
-                IsSucceed = false,
-                StatusCode = 403,
-                Message = "You are not to change role of this user"
-            };
-
-        }
-        */
 
         public async Task<LoginServiceResponseDto?> MeAsync(MeDto meDto)
         {

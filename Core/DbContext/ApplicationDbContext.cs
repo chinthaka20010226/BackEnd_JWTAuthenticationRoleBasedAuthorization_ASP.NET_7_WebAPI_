@@ -58,7 +58,7 @@ namespace backend_dotnet7.Core.DbContext
             //7
             builder.Entity<IdentityUserRole<string>>(e =>
             {
-                e.ToTable("UserRoles");
+               e.ToTable("UserRoles");
             });
         }
     }
